@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-import sipconfig
+# import sipconfig
 import subprocess
 import os
 import site
@@ -17,6 +17,7 @@ class Config:
         self.__qmakePath = qmakePath
 
         qtVersion = self.qmakeVariable('QT_VERSION')
+        print(qtVersion)
         self.__hasQt4 = qtVersion.startswith('4.')
         self.__hasQt5 = qtVersion.startswith('5.')
 
@@ -51,9 +52,9 @@ class Config:
 
 def main():
     qmakePath = getEnv('QMAKE', 'qmake')
-    sipPath = getEnv('SIP', 'sip')
+    sipPath = getEnv('SIP', 'sip-build')
 
-    sipConfig = sipconfig.Configuration()
+    # sipConfig = sipconfig.Configuration()
     config = Config(qmakePath)
 
     projectPath = getEnv('PROJECT_PATH', os.getcwd() + '/..')
@@ -63,12 +64,12 @@ def main():
     pyQtIncludePath = getEnv('PYQT_INCLUDE_PATH',
             '/usr/share/sip/PyQt' + (config.hasQt5() and '5' or '4'))
 
-    commandOutput(sipPath, config.sipFlags().split(' ') + [
-        '-I', pyQtIncludePath,
-        '-b', 'fakevim_python.pro',
-        '-o', '-c', '.',
-        sipFilePath
-        ])
+    # commandOutput(sipPath, config.sipFlags().split(' ') + [
+    #     '-I', pyQtIncludePath,
+    #     '-b', 'fakevim_python.pro',
+    #     '-o', '-c', '.',
+    #     sipFilePath
+    #     ])
 
     # Find libpython
     pythonLibDir = sysconfig.get_config_var('LIBDIR')
@@ -102,7 +103,7 @@ def main():
         INSTALLS += target
         '''.format(
             pythonInclude = sysconfig.get_python_inc(),
-            sipInclude = sipConfig.sip_inc_dir,
+            sipInclude = getEnv('SIP_INCLUDE_PATH','/usr/include'),#sipConfig.sip_inc_dir,
             projectInclude = projectPath,
             projectPythonInclude = projectPath + "/python",
             includePath = includePath,

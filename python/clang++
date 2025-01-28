@@ -1,0 +1,3 @@
+#!/bin/sh
+echo /usr/bin/clang++ -std=c++17 $*
+exec /usr/bin/clang++ -std=c++17 $*

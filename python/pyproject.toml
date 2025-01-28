@@ -1,0 +1,42 @@
+[build-system]
+requires = ["sip >=6, <7"]
+build-backend = "sipbuild.api"
+
+[project]
+name = "FakeVim"
+
+[tool.sip.project]
+sip-include-dirs = [
+    "/opt/homebrew/Caskroom/miniconda/base/envs/fakevim3/lib/python3.13/site-packages/PyQt5/bindings",
+    "/opt/homebrew/Caskroom/miniconda/base/pkgs/pyqt-5.15.9-py312h550cae4_5/lib/python3.12/site-packages/PyQt5/bindings",
+]
+abi-version = "12.8"
+py-include-dir = "/opt/homebrew/Caskroom/miniconda/base/envs/fakevim3/include/qt"
+
+[tool.sip.metadata]
+name = "FakeVim"
+
+[tool.sip]
+tool = ["sip-bild"]
+
+[tool.sip.bindings.FakeVim]
+include-dirs = [
+    ".",
+    "..",
+    "../cmake-build-release",
+    "/opt/homebrew/Caskroom/miniconda/base/envs/fakevim3/include/qt",
+    "/opt/homebrew/Caskroom/miniconda/base/envs/fakevim3/include/qt/QtCore",
+    "/opt/homebrew/Caskroom/miniconda/base/envs/fakevim3/include/qt/QtWidgets",
+    "/opt/homebrew/Caskroom/miniconda/base/envs/fakevim3/include/qt/QtGui",
+]
+libraries = [
+    "fakevim",
+]
+library-dirs = [
+    "../cmake-build-release",
+]
+#sources = ["../cmake-build-release/python/moc_fakevimproxy.cpp"]
+define-macros=[
+    "FAKEVIM_PYQT_MAJOR_VERSION=5",
+]
+
